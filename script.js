@@ -1,17 +1,42 @@
+let playerScore = 0;
+let computerScore = 0;
+let roundsPlayed = 0;
+
 function getComputerChoice() {
     const choices = ['Rock', 'Paper', 'Scissors'];
     const randomIndex = Math.floor(Math.random() * choices.length);
     return choices[randomIndex];
 }
 
-function playRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.toLowerCase();
+function playRound(playerSelection) {
+    if (roundsPlayed >= 5) {
+        endGame();
+        return;
+    }
 
     const computerSelection = getComputerChoice();
 
     if (!['rock', 'paper', 'scissors'].includes(playerSelection)) {
-        return "Invalid choice. Please enter Rock, Paper, or Scissors.";
+        console.log("Invalid choice. Please enter Rock, Paper, or Scissors.");
+        return;
     }
+
+    const result = determineWinner(playerSelection, computerSelection);
+
+    console.log(result);
+
+    if (result.includes("win")) {
+        playerScore++;
+    } else if (result.includes("lose")) {
+        computerScore++;
+    }
+
+    roundsPlayed++;
+    updateDisplay();
+}
+
+function determineWinner(playerSelection, computerSelection) {
+    playerSelection = playerSelection.toLowerCase();
 
     if (playerSelection === computerSelection) {
         return "It's a tie!";
@@ -26,63 +51,44 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function getUserChoice() {
-    const userInput = prompt("Enter your choice: Rock, Paper, or Scissors");
-    
-    if (userInput === null || userInput.trim() === "") {
-        console.log("Invalid input. Skipping this round.");
-        return null;
-    }
+function updateDisplay() {
+    // Update result message
+    const resultMessage = document.getElementById('result-message');
+    resultMessage.textContent = `Round ${roundsPlayed}: ${determineWinnerMessage()}`;
 
-    return userInput;
+    // Update score display
+    const playerScoreDisplay = document.getElementById('player-score');
+    const computerScoreDisplay = document.getElementById('computer-score');
+    playerScoreDisplay.textContent = playerScore;
+    computerScoreDisplay.textContent = computerScore;
 }
 
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-
-    for (let round = 1; round <= 5; round++) {
-        const playerSelection = getUserChoice();
-
-        if (playerSelection === null) {
-            continue;
-        }
-
-        const computerSelection = getComputerChoice();
-        const result = playRound(playerSelection, computerSelection);
-
-        console.log(result);
-
-        if (result.includes("win")) {
-            playerScore++;
-        } else if (result.includes("lose")) {
-            computerScore++;
-        }
-    }
-
+function determineWinnerMessage() {
     if (playerScore > computerScore) {
-        console.log("You win the game!");
+        return "You are winning!";
     } else if (playerScore < computerScore) {
-        console.log("You lose the game!");
+        return "Computer is winning!";
     } else {
-        console.log("It's a tie!");
+        return "It's a tie!";
     }
 }
 
 function resetGame() {
-        // Reset scores
-        playerScore = 0;
-        computerScore = 0;
-    
-        // Clear result messages
-        document.getElementById('result-message').textContent = "Results will appear here";
-    
-        // Update score display
-        document.getElementById('player-score').textContent = playerScore;
-        document.getElementById('computer-score').textContent = computerScore;
-    
-    // Code to reset the game state goes here
+    // Reset scores and rounds
+    playerScore = 0;
+    computerScore = 0;
+    roundsPlayed = 0;
+
+    // Clear result messages
+    document.getElementById('result-message').textContent = "Results will appear here";
+
+    // Update score display
+    updateDisplay();
+
     console.log("Game reset!");
 }
 
-game();
+function endGame() {
+    console.log("Game over!");
+    // You can add more logic here if needed
+}
