@@ -33,6 +33,10 @@ function playRound(playerSelection) {
 
     roundsPlayed++;
     updateDisplay();
+
+    if (roundsPlayed === 5) {
+        endGame()
+    }
 }
 
 function determineWinner(playerSelection, computerSelection) {
@@ -88,7 +92,23 @@ function resetGame() {
     console.log("Game reset!");
 }
 
+// ... (previous code)
+
 function endGame() {
     console.log("Game over!");
-    // You can add more logic here if needed
+
+    let winnerMessage = "";
+    if (playerScore > computerScore) {
+        winnerMessage = "You win the game!";
+    } else if (playerScore < computerScore) {
+        winnerMessage = "Computer wins the game!";
+    } else {
+        winnerMessage = "It's a tie!";
+    }
+
+    // Display the overall winner message
+    const resultMessage = document.getElementById('result-message');
+    resultMessage.textContent = winnerMessage;
 }
+
+// ... (remaining code)

@@ -36,10 +36,24 @@ main {
     cursor: pointer;
 }
 
+/* Add this CSS to your style.css file or within a <style> tag in the HTML head */
+
+
 .choice img {
     width: 100px;
     height: 100px;
 }
+
+svg {
+    height: 100px;
+    width: auto;
+    
+}
+
+svg :hover {
+    fill: red;
+}
+
 
 .results {
     text-align: center;
