@@ -14,6 +14,7 @@ function playRound(playerSelection) {
         return;
     }
 
+
     const computerSelection = getComputerChoice();
 
     if (!['rock', 'paper', 'scissors'].includes(playerSelection)) {
